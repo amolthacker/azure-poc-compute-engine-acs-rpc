@@ -1,0 +1,28 @@
+Host *
+  StrictHostKeyChecking no
+
+Host vtasadmin-start
+  HostName tds-veritas.northcentralus.cloudapp.azure.com
+  IdentityFile ~/.ssh/az
+  ControlMaster yes
+  ControlPath ~/.ssh/vtasadmin-tunnel.ctl
+  RequestTTY no
+  # Jenkins dashboard
+  LocalForward 8080 127.0.0.1:8080
+  # Spinnaker/deck
+  LocalForward 9000 127.0.0.1:9000
+  # Spinnaker/gate
+  LocalForward 8084 127.0.0.1:8084
+  # Default port if running 'kubectl proxy' on the VM
+  LocalForward 8001 127.0.0.1:8001
+  # TDS Veritas Compute Manager
+  LocalForward 8090 127.0.0.1:8090
+  # TDS Veritas Compute Engine Container Log Stream
+  LocalForward 8888 127.0.0.1:8888
+  User vtasadmin
+
+Host vtasadmin-stop
+  HostName tds-veritas.northcentralus.cloudapp.azure.com
+  IdentityFile ~/.ssh/az
+  ControlPath ~/.ssh/vtasadmin-tunnel.ctl
+  RequestTTY no

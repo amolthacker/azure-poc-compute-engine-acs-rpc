@@ -1,0 +1,302 @@
+{
+  "appConfig": {},
+  "executionEngine": "v2",
+  "keepWaitingPipelines": false,
+  "lastModifiedBy": "anonymous",
+  "limitConcurrent": true,
+  "parallel": true,
+  "stages": [
+    {
+      "clusters": [
+        {
+          "account": "my-kubernetes-account",
+          "application": "valengine",
+          "cloudProvider": "kubernetes",
+          "containers": [
+            {
+              "args": [],
+              "command": [],
+              "envVars": [],
+              "imageDescription": {
+                "account": "azure-container-registry",
+                "fromTrigger": true,
+                "imageId": "mibrxdll62xyo.azurecr.io/veritas/valengine (Tag resolved at runtime)",
+                "registry": "mibrxdll62xyo.azurecr.io",
+                "repository": "veritas/valengine",
+                "tag": null
+              },
+              "imagePullPolicy": "IFNOTPRESENT",
+              "limits": {
+                "cpu": null,
+                "memory": null
+              },
+              "livenessProbe": null,
+              "name": "veritas-valengine",
+              "ports": [
+                {
+                  "containerPort": 6000,
+                  "hostIp": null,
+                  "hostPort": null,
+                  "name": "app",
+                  "protocol": "TCP"
+                },
+                {
+                  "containerPort": 8000,
+                  "name": "health",
+                  "protocol": "TCP"
+                }
+              ],
+              "readinessProbe": null,
+              "requests": {
+                "cpu": null,
+                "memory": null
+              },
+              "volumeMounts": []
+            }
+          ],
+          "deployment": {
+            "deploymentStrategy": {
+              "rollingUpdate": {
+                "maxSurge": "1",
+                "maxUnavailable": "1"
+              },
+              "type": "RollingUpdate"
+            },
+            "enabled": true,
+            "minReadySeconds": 10,
+            "paused": false,
+            "progressRollbackSeconds": null,
+            "revisionHistoryLimit": 1,
+            "rollbackRevision": null
+          },
+          "events": [],
+          "freeFormDetails": null,
+          "hostNetwork": null,
+          "interestingHealthProviderNames": [
+            "KubernetesContainer",
+            "KubernetesPod"
+          ],
+          "loadBalancers": [
+            "valengine-dev"
+          ],
+          "namespace": "default",
+          "nodeSelector": {},
+          "podAnnotations": {},
+          "podSpec": null,
+          "provider": "kubernetes",
+          "region": "default",
+          "replicaSetAnnotations": {
+            "deployment.kubernetes.io/desired-replicas": "2",
+            "deployment.kubernetes.io/max-replicas": "3",
+            "deployment.kubernetes.io/revision": "1"
+          },
+          "restartPolicy": null,
+          "securityContext": null,
+          "securityGroups": [],
+          "sequence": null,
+          "stack": "dev",
+          "strategy": "",
+          "targetSize": 2,
+          "terminationGracePeriodSeconds": 30,
+          "volumeSources": []
+        }
+      ],
+      "name": "Deploy to Dev",
+      "refId": "1",
+      "requisiteStageRefIds": [],
+      "type": "deploy"
+    },
+    {
+      "cloudProvider": "kubernetes",
+      "cloudProviderType": "kubernetes",
+      "cluster": "valengine-dev",
+      "continuePipeline": true,
+      "credentials": "my-kubernetes-account",
+      "failPipeline": false,
+      "interestingHealthProviderNames": [
+        "KubernetesService"
+      ],
+      "name": "Destroy Previous Dev Cluster",
+      "namespaces": [
+        "default"
+      ],
+      "refId": "2",
+      "requisiteStageRefIds": [
+        "1"
+      ],
+      "target": "ancestor_asg_dynamic",
+      "type": "destroyServerGroup"
+    },
+    {
+      "continuePipeline": false,
+      "failPipeline": false,
+      "instructions": "Verify the dev server group looks good. Run `kubectl proxy` and navigate to this url to test: \ncurl -I http://localhost:8001/api/v1/proxy/namespaces/default/services/valengine-dev:8000/",
+      "judgmentInputs": [],
+      "name": "Manual Judgment",
+      "notifications": [],
+      "refId": "3",
+      "requisiteStageRefIds": [
+        "1"
+      ],
+      "type": "manualJudgment"
+    },
+    {
+      "cloudProvider": "kubernetes",
+      "cloudProviderType": "kubernetes",
+      "cluster": "valengine-dev",
+      "credentials": "my-kubernetes-account",
+      "imageNamePattern": ".*",
+      "name": "Find Image from Dev Cluster",
+      "namespaces": [
+        "default"
+      ],
+      "onlyEnabled": true,
+      "refId": "4",
+      "requisiteStageRefIds": [
+        "3"
+      ],
+      "selectionStrategy": "NEWEST",
+      "type": "findImage"
+    },
+    {
+      "clusters": [
+        {
+          "account": "my-kubernetes-account",
+          "application": "valengine",
+          "capacity": {
+            "desired": 2,
+            "max": 20,
+            "min": 2
+          },
+          "cloudProvider": "kubernetes",
+          "containers": [
+            {
+              "args": [],
+              "command": [],
+              "envVars": [],
+              "imageDescription": {
+                "account": "azure-container-registry",
+                "fromTrigger": true,
+                "imageId": "mibrxdll62xyo.azurecr.io/veritas/valengine (Tag resolved at runtime)",
+                "registry": "mibrxdll62xyo.azurecr.io",
+                "repository": "veritas/valengine",
+                "tag": null
+              },
+              "imagePullPolicy": "IFNOTPRESENT",
+              "limits": {
+                "cpu": null,
+                "memory": null
+              },
+              "livenessProbe": null,
+              "name": "veritas-valengine",
+              "ports": [
+                {
+                  "containerPort": 6000,
+                  "hostIp": null,
+                  "hostPort": null,
+                  "name": "app",
+                  "protocol": "TCP"
+                },
+                {
+                  "containerPort": 8000,
+                  "name": "health",
+                  "protocol": "TCP"
+                }
+              ],
+              "readinessProbe": null,
+              "requests": {
+                "cpu": "250m",
+                "memory": "250Mi"
+              },
+              "volumeMounts": []
+            }
+          ],
+          "deployment": {
+            "deploymentStrategy": {
+              "rollingUpdate": null,
+              "type": "Recreate"
+            },
+            "enabled": true,
+            "minReadySeconds": 10,
+            "paused": false,
+            "progressRollbackSeconds": null,
+            "revisionHistoryLimit": 1,
+            "rollbackRevision": null
+          },
+          "events": [],
+          "freeFormDetails": null,
+          "hostNetwork": null,
+          "interestingHealthProviderNames": [
+            "KubernetesContainer",
+            "KubernetesPod"
+          ],
+          "loadBalancers": [
+            "valengine-prod"
+          ],
+          "namespace": "default",
+          "nodeSelector": {},
+          "podAnnotations": {},
+          "podSpec": null,
+          "provider": "kubernetes",
+          "region": "default",
+          "replicaSetAnnotations": {
+            "deployment.kubernetes.io/desired-replicas": "2",
+            "deployment.kubernetes.io/max-replicas": "2",
+            "deployment.kubernetes.io/revision": "1"
+          },
+          "restartPolicy": null,
+          "scalingPolicy": {
+            "cpuUtilization": {
+              "target": 50
+            }
+          },
+          "securityContext": null,
+          "securityGroups": [],
+          "sequence": null,
+          "stack": "prod",
+          "strategy": "",
+          "targetSize": 2,
+          "terminationGracePeriodSeconds": 30,
+          "volumeSources": []
+        }
+      ],
+      "name": "Deploy to Prod",
+      "refId": "5",
+      "requisiteStageRefIds": [
+        "4"
+      ],
+      "type": "deploy"
+    },
+    {
+      "cloudProvider": "kubernetes",
+      "cloudProviderType": "kubernetes",
+      "cluster": "valengine-prod",
+      "credentials": "my-kubernetes-account",
+      "interestingHealthProviderNames": [
+        "KubernetesService"
+      ],
+      "name": "Disable Previous Prod Cluster",
+      "namespaces": [
+        "default"
+      ],
+      "preferLargerOverNewer": "false",
+      "refId": "6",
+      "remainingEnabledServerGroups": 1,
+      "requisiteStageRefIds": [
+        "5"
+      ],
+      "type": "disableCluster"
+    }
+  ],
+  "triggers": [
+    {
+      "account": "azure-container-registry",
+      "enabled": true,
+      "organization": "veritas",
+      "registry": "mibrxdll62xyo.azurecr.io",
+      "repository": "veritas/valengine",
+      "tag": null,
+      "type": "docker"
+    }
+  ]
+}

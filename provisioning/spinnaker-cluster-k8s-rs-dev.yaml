@@ -1,0 +1,82 @@
+---
+apiVersion: "extensions/v1beta1"
+kind: "ReplicaSet"
+metadata:
+  annotations:
+    deployment.kubernetes.io/desired-replicas: "2"
+    deployment.kubernetes.io/max-replicas: "3"
+    deployment.kubernetes.io/revision: "8"
+    deployment.kubernetes.io/revision-history: "1"
+  finalizers: []
+  labels:
+    app: "valengine"
+    cluster: "valengine-dev"
+    load-balancer-valengine-dev: "true"
+    pod-template-hash: "517228309"
+    replication-controller: "valengine-dev-v009"
+    stack: "dev"
+    valengine-dev: "true"
+    version: "9"
+  name: "valengine-dev-v009"
+  namespace: "default"
+  ownerReferences: []
+spec:
+  minReadySeconds: 10
+  replicas: 2
+  selector:
+    matchExpressions: []
+    matchLabels:
+      app: "valengine"
+      cluster: "valengine-dev"
+      pod-template-hash: "517228309"
+      replication-controller: "valengine-dev-v009"
+      stack: "dev"
+      valengine-dev: "true"
+      version: "9"
+  template:
+    metadata:
+      finalizers: []
+      labels:
+        app: "valengine"
+        cluster: "valengine-dev"
+        load-balancer-valengine-dev: "true"
+        pod-template-hash: "517228309"
+        replication-controller: "valengine-dev-v009"
+        stack: "dev"
+        valengine-dev: "true"
+        version: "9"
+      ownerReferences: []
+    spec:
+      containers:
+      - args: []
+        command: []
+        env: []
+        image: "mibrxdll62xyo.azurecr.io/veritas/valengine:7"
+        imagePullPolicy: "IfNotPresent"
+        name: "veritas-valengine"
+        ports:
+        - containerPort: 6000
+          name: "app"
+          protocol: "TCP"
+        - containerPort: 8000
+          name: "health"
+          protocol: "TCP"
+        resources: {}
+        terminationMessagePath: "/dev/termination-log"
+        volumeMounts: []
+      dnsPolicy: "ClusterFirst"
+      imagePullSecrets:
+      - name: "docker-hub-registry"
+      - name: "azure-container-registry"
+      restartPolicy: "Always"
+      securityContext:
+        supplementalGroups: []
+      terminationGracePeriodSeconds: 30
+      volumes: []
+status:
+  availableReplicas: 1
+  conditions: []
+  fullyLabeledReplicas: 2
+  observedGeneration: 6
+  readyReplicas: 2
+  replicas: 2

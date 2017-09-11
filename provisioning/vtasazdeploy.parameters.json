@@ -1,0 +1,27 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "adminUsername": {
+      "value": "vtasadmin"
+    },
+    "sshPublicKey": {
+      "value": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDX8Qc90EYiG1+M/P7dQvBm03DSTVHj2bqdf3Y8ZzjDOex9tQm6skt0QN/1/hDXCVqb3w2njFXx9WqoIxQy57r8f6xv3sOqsB0vUbdgTG4SU32FgzNjaNd3XfL22lK2fljtXa5q60jQoq4WOVNY9cKOxtstMAks7RyGvglmHJgDmgi0tDkI2eG8KSgLHKdDUPBCC33eMs+QzIshWcJruXTJYaRVAhaW/PrBcmZtAq0uj91Rl72Vtj8FA0oZHrd/pkcPS5UGn1kJqqJ/bydQK3d8fLC9iI3CEAIdXnQnNhItR4829eV9L79nMli04knihLop5CYV+FerLM9FqqpRGvhn veritas@azure"
+    },
+    "devopsDnsPrefix": {
+      "value": "tds-veritas"
+    },
+    "servicePrincipalAppId": {
+      "value": "8c575a57-3515-43a0-a0bc-b71d4321ed34"
+    },
+    "servicePrincipalAppKey": {
+      "value": "ek18iNdXogKrhXz3lpwuG+wbE7bFIJfXBFmQCgM/jUY="
+    },
+    "gitRepository": {
+      "value": "https://github.com/amolthacker/compute-engine.git"
+    },
+    "dockerRepository": {
+      "value": "veritas/valengine"
+    }
+  }
+}
