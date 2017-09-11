@@ -7,9 +7,9 @@ The `valengine` responds to requests by doing static pricing compute using the [
 
 It comprises of the following two components:
 
- * [compute-engine](https://github.com/amolthacker/compute-engine)
+ * [compute-engine](https://github.com/amolthacker/azure-poc-compute-engine-acs-rpc-ce)
    
- * [compute-manager](https://github.com/amolthacker/compute-manager)
+ * [compute-manager](https://github.com/amolthacker/azure-poc-compute-engine-acs-rpc-cm)
  
 
 ### Architecture
